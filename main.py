@@ -3,6 +3,7 @@ from numpy.ma.core import squeeze
 
 df = pandas.read_csv("hotels.csv", dtype={"id":str});
 df_cards = pandas.read_csv("cards.csv", dtype=str).to_dict(orient="records");
+df_security_card = pandas.read_csv("card_security.csv", dtype=str);
 
 class Hotel:
     def __init__(self, hotel_id):
@@ -47,16 +48,28 @@ class CreditCard:
         else:
             return False;
 
+class SecureCreditCard(CreditCard):
+    def authenticate(self, given_password):
+        password = df_security_card.loc[df_security_card["number"] == self.number, "password"].squeeze();
+
+        if password == given_password:
+            return  True;
+        else:
+            return False;
+
 hotel_ID = input("Add the id of the hotel: ")
 hotel = Hotel(hotel_ID);
 
 if hotel.available():
-    credit_card = CreditCard( number="2345675678");
+    credit_card = SecureCreditCard( number="2345675678");
     if credit_card.validate( expiration="08.12.2025", holder="Asen Asen", cvc="234"):
-        hotel.book();
-        name = input("Enter your name: ");
-        reservation_ticket = ReservationTickets(customer_name=name, hotel_object=hotel);
-        print(reservation_ticket.generate());
+        if credit_card.authenticate(given_password="mypass")
+            hotel.book();
+            name = input("Enter your name: ");
+            reservation_ticket = ReservationTickets(customer_name=name, hotel_object=hotel);
+            print(reservation_ticket.generate());
+        else:
+            print("Credit card authentication falied")
     else:
         print("There is problem with payment")
 else:
