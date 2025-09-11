@@ -23,11 +23,17 @@ class Hotel:
         else:
             return False;
 
+    @property
+    def is_big(self):
+        """Check if hotel has big capacity (>= 4 people)."""
+        capacity = df.loc[df["id"] == self.hotel_id, "capacity"].squeeze();
+        return int(capacity) >= 4;
+
     @classmethod
     def from_name(cls, hotel_name):
         """Create a hotel object directly from hotel name."""
-        hotel_id = df.loc[df["name"] == hotel_name, "id"].squeeze()
-        return cls(hotel_id)
+        hotel_id = df.loc[df["name"] == hotel_name, "id"].squeeze();
+        return cls(hotel_id);
 
 class ReservationTickets:
     def __init__(self, customer_name, hotel_object):
@@ -75,6 +81,8 @@ if hotel.available():
             name = input("Enter your name: ");
             reservation_ticket = ReservationTickets(customer_name=name, hotel_object=hotel);
             print(reservation_ticket.generate());
+
+            print("Big hotel (capacity >= 4):", hotel.is_big);
 
             another_hotel = Hotel.from_name(hotel_name=hotel.name);
         else:
