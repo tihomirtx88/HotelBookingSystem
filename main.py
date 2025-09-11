@@ -35,6 +35,11 @@ class Hotel:
         hotel_id = df.loc[df["name"] == hotel_name, "id"].squeeze();
         return cls(hotel_id);
 
+    @staticmethod
+    def hotel_exists(hotel_id):
+        """Check if hotel ID exists in the dataset."""
+        return hotel_id in df["id"].values
+
 class ReservationTickets:
     def __init__(self, customer_name, hotel_object):
         self.customer_name = customer_name;
@@ -71,23 +76,26 @@ class SecureCreditCard(CreditCard):
             return False;
 
 hotel_ID = input("Add the id of the hotel: ")
-hotel = Hotel(hotel_ID);
-
-if hotel.available():
-    credit_card = SecureCreditCard( number="2345675678");
-    if credit_card.validate( expiration="08.12.2025", holder="Asen Asen", cvc="234"):
-        if credit_card.authenticate(given_password="mypass")
-            hotel.book();
-            name = input("Enter your name: ");
-            reservation_ticket = ReservationTickets(customer_name=name, hotel_object=hotel);
-            print(reservation_ticket.generate());
-
-            print("Big hotel (capacity >= 4):", hotel.is_big);
-
-            another_hotel = Hotel.from_name(hotel_name=hotel.name);
-        else:
-            print("Credit card authentication falied")
-    else:
-        print("There is problem with payment")
+if not Hotel.hotel_exists(hotel_ID):
+    print("❌ Hotel with this ID does not exist.")
 else:
-    print("hotel is not free");
+    hotel = Hotel(hotel_ID);
+
+    if hotel.available():
+        credit_card = SecureCreditCard( number="2345675678");
+        if credit_card.validate( expiration="08.12.2025", holder="Asen Asen", cvc="234"):
+            if credit_card.authenticate(given_password="mypass")
+                hotel.book();
+                name = input("Enter your name: ");
+                reservation_ticket = ReservationTickets(customer_name=name, hotel_object=hotel);
+                print(reservation_ticket.generate());
+
+                print("Big hotel (capacity >= 4):", hotel.is_big);
+
+                another_hotel = Hotel.from_name(hotel_name=hotel.name);
+            else:
+                print("Credit card authentication falied")
+        else:
+            print("There is problem with payment")
+    else:
+        print("hotel is not free");
