@@ -23,6 +23,12 @@ class Hotel:
         else:
             return False;
 
+    @classmethod
+    def from_name(cls, hotel_name):
+        """Create a hotel object directly from hotel name."""
+        hotel_id = df.loc[df["name"] == hotel_name, "id"].squeeze()
+        return cls(hotel_id)
+
 class ReservationTickets:
     def __init__(self, customer_name, hotel_object):
         self.customer_name = customer_name;
@@ -48,6 +54,7 @@ class CreditCard:
         else:
             return False;
 
+# Inheritance
 class SecureCreditCard(CreditCard):
     def authenticate(self, given_password):
         password = df_security_card.loc[df_security_card["number"] == self.number, "password"].squeeze();
@@ -68,6 +75,8 @@ if hotel.available():
             name = input("Enter your name: ");
             reservation_ticket = ReservationTickets(customer_name=name, hotel_object=hotel);
             print(reservation_ticket.generate());
+
+            another_hotel = Hotel.from_name(hotel_name=hotel.name);
         else:
             print("Credit card authentication falied")
     else:
