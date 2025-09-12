@@ -1,18 +1,8 @@
-🏨 Hotel Reservation System (Python + Pandas)
+# 🏨 Hotel Reservation System (Python)
 
-This project is a simple hotel booking system written in Python.
-It demonstrates the use of:
+A simple **hotel booking system** built with Python and Pandas.  
+It demonstrates **OOP principles** such as inheritance, abstract classes, properties, class/staticmethods, and CSV data persistence.
 
-Object-Oriented Programming (OOP)
+---
 
-Abstract Classes (abc)
-
-Inheritance & Polymorphism
-
-Class methods, static methods, properties, dunder methods
-
-Data persistence using CSV files
-
-Payment validation with credit card simulation
-
-Reservation ticket generation
+## 📂 Project Files
