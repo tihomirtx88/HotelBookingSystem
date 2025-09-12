@@ -40,6 +40,12 @@ class Hotel:
         """Check if hotel ID exists in the dataset."""
         return hotel_id in df["id"].values
 
+    def __eq__(self, other):
+        if self.hotel_id == other.hotel_id:
+            return True
+        else:
+            return False;
+
 class ReservationTickets:
     def __init__(self, customer_name, hotel_object):
         self.customer_name = customer_name;
